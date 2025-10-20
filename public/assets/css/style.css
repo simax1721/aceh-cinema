@@ -1,0 +1,552 @@
+:root {
+    --primary-color: #470706;
+    --secondary-color: #965209;
+    --white-color: #fff;
+    --third-color: #FD751F;
+}
+
+body {
+    background-color: var(--primary-color);
+}
+
+.nav-costum-bg {
+    background-color: var(--primary-color);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+}
+
+#navbarNav {
+  /* display: flex;
+  justify-content: center; */
+}
+
+.mobile-logo {
+  display: none;
+}
+
+.desktop-logo {
+  display: contents;
+}
+
+.nav-link-costume {
+    font-size: 16px !important;
+    font-weight: 500;
+    color: var(--white-color);
+}
+
+.nav-link-costume:hover {
+    color: var(--secondary-color);
+}
+
+a.user-profile {
+    font-size: 16px !important;
+    color: var(--white-color);
+    text-decoration: none;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  border: 2px solid var(--white-color);     /* warna garis luar */
+  border-radius: 30px;           /* membuat ujung melengkung */
+  padding: 5px 10px;
+  width: 280px;
+  background-color: transparent;
+  /* color: var(--white-color); */
+}
+
+.search-icon {
+  color: var(--white-color);
+  font-size: 12px;
+  margin-right: 8px;
+
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  flex: 1;                       /* isi seluruh ruang tersisa */
+  font-size: 10px;
+  color: var(--white-color);
+  background: transparent;
+}
+
+/* Opsional: efek fokus */
+.search-box:focus-within {
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.3);
+  background: #fff;
+  color: #eee;
+}
+
+.search-box:focus-within input, .search-box:focus-within .search-icon {
+    color: #333;
+}
+
+#nav-left-menu {
+
+}
+
+.navbar-bottom {
+  background-color: var(--primary-color);
+  padding: 5px 0;
+  font-size: 12px;
+}
+
+.nav-bottom-link {
+  width: 100%;
+  color: var(--white-color);
+  text-align: center;
+  text-decoration: none;
+}
+
+/* === HERO SECTION === */
+#hero-section {
+  position: relative;
+  width: 100%;
+  height: 40vh;
+  padding: 50px;
+  /* background-color: #000; */
+  overflow: hidden;
+  color: var(--white-color);
+   margin-bottom: 60px;
+}
+
+/* === VIDEO BACKGROUND === */
+.video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.video-background iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 56.25vw; /* maintain 16:9 ratio */
+  min-height: 100%;
+  min-width: 100%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* === OVERLAY CONTENT === */
+#hero-section .content-overlay {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/* === DARK OVERLAY LAYER === */
+#hero-section::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* background: rgba(0, 0, 0, 0.6); lebih gelap biar teks terlihat */
+  background: linear-gradient(to right, rgba(0, 0, 0, 1) 35%, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0));
+  z-index: 1;
+}
+
+/* === TEXT & BUTTON === */
+#hero-section p {
+  color: var(--white-color);
+  font-style: italic;
+  font-size: 20px;
+}
+
+#hero-section button.button-watch {
+  padding: 8px 30px;
+  background-color: var(--third-color);
+  color: var(--white-color);
+  font-size: 16px;
+  font-weight: bolder;
+  border-radius: 40px;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+#hero-section button.button-watch:hover {
+  background-color: var(--white-color);
+  color: var(--third-color);
+}
+
+
+
+
+
+section.movies {
+  padding: 0px 50px;
+  margin-bottom: 60px;
+}
+
+section.movies-list {
+  /* padding: 0px 50px; */
+  margin-top: 50px;
+  margin-bottom: 60px;
+}
+
+section.movies .movie-category h2,
+section.movies .movie-category i, section.movies-list h2 {
+  color: var(--white-color);
+  margin-bottom: 30px;
+}
+
+section.movies .movie-category i {
+  font-size: 20px;
+}
+
+/* === SWIPER === */
+.swipers {
+  width: 100%;
+  padding-bottom: 30px;
+}
+
+.movie-card {
+  position: relative;
+  z-index: 10 !important;
+  overflow: visible;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.movie-card:hover {
+  z-index: 9999 !important; /* pastikan card aktif muncul paling depan */
+}
+
+.mv-card-h {
+  height: 200px !important;
+}
+
+.movie-card img {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.movie-card:hover img {
+  transform: scale(1.05);
+}
+
+/* === SMALL TITLE === */
+.movie-info {
+  position: absolute;
+  bottom: 10px;
+  left: 15px;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+  z-index: 2;
+  font-weight: 600;
+}
+
+/* === TOOLTIP CARD === */
+.movie-tooltip {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.9);
+  width: 200px;
+  background-color: var(--primary-color);
+  border-radius: 10px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s ease;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+  z-index: 99999 !important; /* tooltip selalu di atas semua slide */
+  pointer-events: auto;
+}
+
+.movie-tooltip img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.tooltip-content {
+  padding: 12px 15px;
+}
+
+.tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.tooltip-header a {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background-color: #fff;
+  color: #000;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.tooltip-header button:hover {
+  background-color: var(--third-color);
+  color: #fff;
+}
+
+.tooltip-header .play-btn {
+  background-color: var(--third-color);
+  color: #fff;
+}
+
+.tooltip-header .play-btn:hover {
+  background-color: #fff;
+  color: var(--third-color);
+}
+
+.movie-meta {
+  font-size: 13px;
+  color: #ccc;
+  margin: 6px 0 2px;
+}
+
+.movie-genre {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.movie-card:hover .movie-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+  pointer-events: auto;
+}
+
+/* === SWIPER BUTTONS === */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #fff !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+/* === FIX TOOLTIP TERPOTONG === */
+.swiper,
+.swiper-wrapper,
+.swiper-slide {
+  overflow: visible !important;
+}
+
+/* Hilangkan scrollbar mengganggu */
+body::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+.more-movie-list {
+  background-color: #000000aa;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: var(--third-color);
+  font-size: 20px;
+  font-weight: bolder;
+}
+
+.play {
+  width: 100%;
+  height: 60vh; /* setengah layar */
+  position: relative;
+  overflow: hidden;
+  background: #000;
+}
+
+.play .video-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.play iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  object-fit: cover; /* isi penuh area 50vh */
+}
+
+.movie-detail {
+  padding: 20px 50px;
+  margin-bottom: 50px;
+}
+
+.movie-detail h2 {
+  color: var(--white-color);
+  font-weight: bolder;
+}
+
+.movie-detail p {
+  color: #eee;
+}
+
+.movie-detail ul {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* jarak antar item */
+  list-style: none;
+  padding: 0;
+  margin: 5px 0 15px 0;
+  color: #ccc; /* warna teks abu-abu muda */
+  font-size: 14px;
+}
+
+.movie-detail ul li {
+  position: relative;
+}
+
+.movie-detail ul li:not(:last-child)::after {
+  content: "•";
+  color: #999; /* warna titik tengah */
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.movie-detail ul li a {
+  text-decoration: none;
+  color: #ccc;
+  transition: color 0.3s;
+}
+
+.movie-detail ul li a:hover {
+  color: #fff;
+}
+
+.movie-detail hr {
+  border-top: .5px solid #eee;
+}
+
+
+
+
+
+footer {
+    padding: 100px 0;
+    text-align: center;
+    background-color: #000;
+}
+
+
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  /* CSS khusus untuk layar < 576px */
+  #hero-section {
+    height: 40vh !important;
+    padding: 20px;
+  }
+
+  #hero-section p {
+      font-size: 16px !important;
+  }
+
+  #hero-section button.button-watch {
+      padding: 10px;
+      font-size: 16px;
+  }
+}
+
+/* Small devices (landscape phones, ≥576px) */
+/* @media (min-width: 576px) { */
+  /* CSS untuk layar antara 576px dan 767px */
+/* } */
+
+/* Medium devices (tablets, ≥768px) */
+@media (max-width: 768.98px) {
+  /* CSS untuk layar antara 768px dan 991px */
+
+  /* #hero-section {
+    height: 40vh !important;
+  } */
+
+  .mobile-logo {
+    display: contents;
+  }
+  .desktop-logo {
+    display: none;
+  }
+  .search-box {
+    width: auto;
+  }
+
+  #nav-left-menu {
+    display: none;
+  }
+
+  
+
+  
+
+}
+
+/* Large devices (desktops, ≥992px) */
+@media (min-width: 769px) {
+  /* CSS untuk layar antara 992px dan 1199px */
+    #hero-section {
+      height: auto;
+    }
+
+  .navbar-bottom {
+    display: none;
+  }
+
+  .movie-tooltip {
+    width: 320px;
+  }
+
+  /* section.movies {
+    padding: 0 10%;
+  } */
+
+}
+
+/* Large devices (desktops, ≥992px) */
+@media (min-width: 992px) {
+  /* CSS untuk layar antara 992px dan 1199px */
+  
+  #hero-section p {
+      font-size: 40px;
+  }
+
+  #hero-section button.button-watch {
+      padding: 10px 150px;
+      font-size: 16px;
+  }
+
+  .movie-tooltip {
+    width: 400px;
+  }
+}
+
+/* Extra large devices (large desktops, ≥1200px) */
+@media (min-width: 1200px) {
+  /* CSS untuk layar antara 1200px dan 1399px */
+  .movie-tooltip {
+    width: 350px;
+  }
+}
+
+/* Extra extra large devices (≥1400px) */
+@media (min-width: 1400px) {
+  /* CSS untuk layar 1400px ke atas */
+}

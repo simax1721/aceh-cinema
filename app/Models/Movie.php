@@ -9,14 +9,16 @@ class Movie extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'title',
-        'category',
-        'dacast_embed',
-        'poster',
-        'description',
-        'release_date',
-        'rating',
-        'views',
-    ];
+    // protected $fillable = [
+    //     'title',
+    //     'category',
+    //     'dacast_embed',
+    //     'poster',
+    //     'description',
+    //     'release_date',
+    //     'rating',
+    //     'views',
+    // ];
+
+    protected $guarded = ['id'];
 }

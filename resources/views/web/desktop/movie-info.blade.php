@@ -1,121 +1,75 @@
 @extends('web.layouts.desktop')
 
 @section('main-content')
-    <section class="play">
-        <div class="video-container">
-            <iframe
-            id="movie-frame"
-            src=""
-            frameborder="0"
-            allow="autoplay; encrypted-media"
-            allowfullscreen
-            webkitallowfullscreen
-            mozallowfullscreen
-            oallowfullscreen
-            msallowfullscreen
-            ></iframe>
-        </div>
+    <section class="movie-about">
+        
     </section>
 
-    <section class="movie-detail">
-        <div class="row">
-            <div class="col-md-9">
-            <h2 id="movie-title"></h2>
-            <div class="">
-                <ul id="movie-meta">
-                    {{-- <li><a href="#">Fiction</a></li>
-                    <li><a href="#">2000</a></li> --}}
-                </ul>
-            </div>
-            <p id="movie-description"></p>
-            <hr>
-        </div>
-        <div class="col-md-3">
-            <div class="row" id="movie-list">
-            <!-- data film akan dimasukkan lewat JS -->
-            </div>
-        </div>
-        </div>
-    </section>
-
-    {{-- <section class="movie-info">
-    <div class="container">
-        <h1>Judul Film</h1>
-        <p><strong>Genre:</strong> Drama, Budaya</p>
-        <p><strong>Tahun:</strong> 2024</p>
-        <p><strong>Sinopsis:</strong> Kisah perjuangan masyarakat Aceh dalam mempertahankan nilai-nilai budaya dan kemanusiaan...</p>
-    </div>
+    {{-- <section style="">
+        test
     </section> --}}
 @endsection
 
 @push('scripts')
     <script>
-        document.addEventListener("DOMContentLoaded", async () => {
-            const movieId = window.location.pathname.split("/").pop(); // ambil ID dari URL, contoh /movie/15
-            try {
-                const response = await fetch(`/api/movies/show/${movieId}`);
-                const movie = await response.json();
+        const movieId = window.location.pathname.split("/").pop();
+        const movieAbout = $('.movie-about');
+        
 
-                console.log(movie);
-                
+        $(document).ready(function () {
+            $.ajax({
+                type: "get",
+                url: `/api/movies/show/${movieId}`,
+                dataType: "json",
+                success: function (response) {
+                    movieAbout.empty();
 
-                // Isi elemen
-                // document.getElementById("movie-frame").src = movie.dacast_embed;
-                document.getElementById("movie-frame").src = 'https://iframe.dacast.com/vod/39e5d509-c095-4ec0-7b41-1b13e9383df6/455a6b63-fa01-49e1-836b-9f94847cb265';
-                document.getElementById("movie-title").textContent = movie.title;
-                document.getElementById("movie-description").textContent = movie.description;
+                    const durationMinutes = response.duration; // misalnya 182 menit
+                    const hours = Math.floor(durationMinutes / 60);
+                    const minutes = durationMinutes % 60;
+                    const formattedDuration = `${hours > 0 ? hours + ' Jam ' : ''}${minutes} Menit`;
+                    const year = new Date(response.release_date).getFullYear();
 
-                // tahun dari release_date
-                const year = new Date(movie.release_date).getFullYear();
-
-                document.getElementById("movie-meta").innerHTML = `
-                <li><a href="#">${movie.category}</a></li>
-                <li><a href="#">${year}</a></li>
-                `;
-            } catch (error) {
-                console.error("Gagal memuat detail film:", error);
-            }
-
-
-
-            const movieList = document.getElementById("movie-list");
-
-            try {
-                const response = await fetch(`/api/movies`);
-                const data = await response.json();
-
-                if (data && data.length > 0) {
-                movieList.innerHTML = data
-                    .map((movie) => {
-                    return `
-                        <div class="col-6 mb-3">
-                        <div class="movie-card mv-card-h">
-                            <img src="${movie.poster}" alt="${movie.title}">
-                            <div class="movie-info">${movie.title}</div>
-                            <div class="movie-tooltip">
-                            <img src="${movie.poster}" alt="${movie.title}">
-                            <div class="tooltip-content">
-                                <div class="tooltip-header">
-                                <a href="/movie/${movie.id}" class="play-btn"><i class="fa-solid fa-play"></i></a>
-                                <a href="#"><i class="fa-solid fa-plus"></i></a>
-                                <a href="#"><i class="fa-solid fa-thumbs-up"></i></a>
+                    const content = `<div class="thumbnail">
+                        <img  src="${response.thumbnail}" alt="">
+                        <div class="thumbnail-gradiend"></div>
+                    </div>
+                    <div class="detail">
+                        <div class="detail-start">
+                            <img class="poster" src="${response.poster}" alt="">
+                            <div class="detail-info">
+                                <h3 class="title text-uppercase">${response.title}</h3>
+                                <ul class="">
+                                    <li class="category">${response.category}</li>
+                                    <li class="age">${response.age}</li>
+                                    <li class="duration">${formattedDuration}</li>
+                                </ul>
+                                <div class="btn-detail">
+                                    <a href="/watch/${response.id}" class="active"><i class="fa-solid fa-play"></i> Tonton</a>
+                                    <a href="#"><i class="fa-solid fa-plus"></i> Favorit</a>
+                                    <a href="#"><i class="fa-solid fa-thumbs-up"></i> Suka</a>
                                 </div>
-                                <p class="movie-meta">${movie.release_date}</p>
-                                <p class="movie-genre">${movie.category}</p>
-                            </div>
                             </div>
                         </div>
+                        <div class="detail-end">
+                            <p class="description">${response.description}</p>
+                            <p class="desc-title">Pemeran</p>
+                            <p class="desc-content actor">${response.actor}</p>
+                            <p class="desc-title">Rilis</p>
+                            <p class="desc-content year">${year}</p>
+                            <p class="desc-title">Penulis</p>
+                            <p class="desc-content writter">${response.writter}</p>
+                            <p class="desc-title">Sutradara</p>
+                            <p class="desc-content producer">${response.producer}</p>
+                            <p class="desc-title">Produksi</p>
+                            <p class="desc-content production">${response.production}</p>
                         </div>
-                    `;
-                    })
-                    .join("");
-                } else {
-                movieList.innerHTML = `<p>Tidak ada film ditemukan untuk kategori <strong>${category}</strong>.</p>`;
+                    </div>`;
+                    
+                    movieAbout.append(content);
+                    
                 }
-            } catch (error) {
-                console.error("Gagal memuat data film:", error);
-                movieList.innerHTML = `<p>Terjadi kesalahan saat memuat data.</p>`;
-            }
+            });
         });
     </script>
 @endpush

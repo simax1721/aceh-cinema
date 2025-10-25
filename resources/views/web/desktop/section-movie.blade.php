@@ -3,63 +3,127 @@
 @section('main-content')
 
 <section class="movies-list">
-    <div class="container">
-    <h2 id="category-title" data-aos="fade-right"></h2>
+    {{-- <div class="container"> --}}
+        {{-- </div> --}}
+    <h2 id="category-title"></h2>
 
-    <div class="row" id="movie-list">
+    <div class="row justify-content-center" id="movie-list">
       <!-- data film akan dimasukkan lewat JS -->
     </div>
-  </div>
+
+    <div class="text-center mt-4 load-movie-btn">
+        <button id="load-more" class="">TAMPILKAN LAINNYA</button>
+    </div>
 </section>
     
 @endsection
 
 @push('scripts')
-    <script>
-        document.addEventListener("DOMContentLoaded", async () => {
-        const movieList = document.getElementById("movie-list");
+    
+<script>
+    // loadMoreBtn.hide();
+    
+    
+    $(document).ready(function () {
+        const loadMoreBtn = $('#load-more');
 
-        // ambil bagian terakhir dari path URL
         const pathParts = window.location.pathname.split("/");
         const category = pathParts[pathParts.length - 1] || "popular";
+        const movieList = $('#movie-list');
 
-        try {
-            const response = await fetch(`/api/movies?category=${category}`);
-            const data = await response.json();
+        $('#category-title').html(ucwords(category));
 
-            if (data && data.length > 0) {
-            movieList.innerHTML = data
-                .map((movie) => {
-                return `
-                    <div class="col-6 col-md-4 col-lg-3 mb-3">
-                    <div class="movie-card mv-card-h">
-                        <img src="${movie.poster}" alt="${movie.title}">
-                        <div class="movie-info">${movie.title}</div>
-                        <div class="movie-tooltip">
-                        <img src="${movie.poster}" alt="${movie.title}">
-                        <div class="tooltip-content">
-                            <div class="tooltip-header">
-                            <a href="/movie/${movie.id}" class="play-btn"><i class="fa-solid fa-play"></i></a>
-                            <a href="#"><i class="fa-solid fa-plus"></i></a>
-                            <a href="#"><i class="fa-solid fa-thumbs-up"></i></a>
-                            </div>
-                            <p class="movie-meta">${movie.release_date}</p>
-                            <p class="movie-genre">${movie.category}</p>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                `;
-                })
-                .join("");
-            } else {
-            movieList.innerHTML = `<p>Tidak ada film ditemukan untuk kategori <strong>${category}</strong>.</p>`;
-            }
-        } catch (error) {
-            console.error("Gagal memuat data film:", error);
-            movieList.innerHTML = `<p>Terjadi kesalahan saat memuat data.</p>`;
+        let currentPage = 1; // halaman awal
+        let lastPage = 1; // akan diupdate dari response
+
+        function loadMovies(page = 1) {
+            $.ajax({
+                type: "GET",
+                url: `/api/movies?category=${category}&page=${page}`,
+                dataType: "json",
+                success: function (response) {
+                    const movies = response.data; // ambil dari objek paginate
+                    lastPage = response.last_page;
+
+                    movies.forEach(movie => {
+                        const card = `
+                            <div class="col-auto mb-3">
+                                <div class="movie-card"
+                                    data-id="${movie.id}"
+                                    data-title="${movie.title}"
+                                    data-category="${movie.category}"
+                                    data-date="${movie.release_date}"
+                                    data-poster="${movie.poster}"
+                                    data-trailer='${movie.trailer_dacast_embed}'>
+                                    <img src="${movie.poster}" alt="${movie.title}">
+                                </div>
+                            </div>`;
+                        movieList.append(card);
+                    });
+
+                    $('.load-movie-btn').addClass('show');
+
+                    // sembunyikan tombol jika sudah halaman terakhir
+                    if (currentPage >= lastPage) {
+                        loadMoreBtn.hide();
+                    } else {
+                        loadMoreBtn.show();
+                    }
+                },
+                error: function () {
+                    movieList.html('<p style="color:#aaa;">Gagal memuat data.</p>');
+                }
+            });
         }
+
+        // muat halaman pertama
+        loadMovies(currentPage);
+
+        // load halaman berikutnya
+        loadMoreBtn.on('click', function () {
+            if (currentPage < lastPage) {
+                currentPage++;
+                loadMovies(currentPage);
+            }
         });
-    </script>
+
+        // Tooltip Logic (tetap sama)
+        let tooltipTimeout;
+
+        $(document).on('mouseenter', '.movie-card', function () {
+            clearTimeout(tooltipTimeout);
+            const card = $(this);
+            const tooltip = $('#movie-tooltip');
+            const dacastEmbed = card.data('trailer');
+
+            tooltip.find('.tooltip-video').html(dacastEmbed);
+            tooltip.find('.movie-meta').text(card.data('date'));
+            tooltip.find('.movie-genre').text(card.data('category'));
+            tooltip.find('.play-btn').attr('href', '/movie/' + card.data('id'));
+
+            const offset = card.offset();
+            tooltip.css({
+                top: offset.top + card.height() / 2 - tooltip.outerHeight() / 2,
+                left: offset.left + card.width() / 2 - tooltip.outerWidth() / 2,
+            }).addClass('show');
+        });
+
+        $(document).on('mouseleave', '.movie-card', function () {
+            tooltipTimeout = setTimeout(() => {
+                $('#movie-tooltip').removeClass('show');
+                $('#movie-tooltip .tooltip-video').empty();
+            }, 200);
+        });
+
+        $('#movie-tooltip').hover(
+            function () { clearTimeout(tooltipTimeout); },
+            function () {
+                $(this).removeClass('show');
+                $(this).find('.tooltip-video').empty();
+            }
+        );
+
+    });
+</script>
 
 @endpush

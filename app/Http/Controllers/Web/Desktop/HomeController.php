@@ -7,15 +7,19 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    function index() {
+    function get_index() {
         return view('web.desktop.home');
     }
 
-    function sectionMovie($movie) {
+    function get_sectionMovie($movie) {
         return view('web.desktop.section-movie');
     }
 
-    function movie($id) {
+    function get_movie($id) {
         return view('web.desktop.movie-info');
+    }
+
+    function get_watch($id) {
+        return view('web.desktop.movie-watch');
     }
 }

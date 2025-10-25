@@ -3,6 +3,7 @@
     --secondary-color: #965209;
     --white-color: #fff;
     --third-color: #FD751F;
+    --fourth-color: #000000aa;
 }
 
 body {
@@ -12,25 +13,15 @@ body {
 .nav-costum-bg {
     background-color: var(--primary-color);
     box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    padding: 0 50px;
 }
 
-#navbarNav {
-  /* display: flex;
-  justify-content: center; */
-}
-
-.mobile-logo {
-  display: none;
-}
-
-.desktop-logo {
-  display: contents;
-}
 
 .nav-link-costume {
     font-size: 16px !important;
     font-weight: 500;
     color: var(--white-color);
+    margin: 0 5px;
 }
 
 .nav-link-costume:hover {
@@ -81,14 +72,13 @@ a.user-profile {
     color: #333;
 }
 
-#nav-left-menu {
-
-}
 
 .navbar-bottom {
   background-color: var(--primary-color);
   padding: 5px 0;
   font-size: 12px;
+  display: none;
+  /* z-index: 999; */
 }
 
 .nav-bottom-link {
@@ -98,11 +88,14 @@ a.user-profile {
   text-decoration: none;
 }
 
+
+
+
 /* === HERO SECTION === */
 #hero-section {
   position: relative;
   width: 100%;
-  height: 40vh;
+  height: auto;
   padding: 50px;
   /* background-color: #000; */
   overflow: hidden;
@@ -117,6 +110,7 @@ a.user-profile {
   left: 0;
   width: 100%;
   height: 100%;
+  zoom: 130%;
   overflow: hidden;
   z-index: 0;
 }
@@ -159,7 +153,7 @@ a.user-profile {
 #hero-section p {
   color: var(--white-color);
   font-style: italic;
-  font-size: 20px;
+  font-size: 30px;
 }
 
 #hero-section button.button-watch {
@@ -171,6 +165,7 @@ a.user-profile {
   border-radius: 40px;
   border: none;
   transition: all 0.3s ease;
+  width: 300px;
 }
 
 #hero-section button.button-watch:hover {
@@ -179,8 +174,7 @@ a.user-profile {
 }
 
 
-
-
+/*  SECTION MOVIE */
 
 section.movies {
   padding: 0px 50px;
@@ -188,7 +182,7 @@ section.movies {
 }
 
 section.movies-list {
-  /* padding: 0px 50px; */
+  padding: 0px 50px;
   margin-top: 50px;
   margin-bottom: 60px;
 }
@@ -203,70 +197,86 @@ section.movies .movie-category i {
   font-size: 20px;
 }
 
+section.movies .movie-category i:hover {
+  color: var(--third-color);
+}
+
+
+/* SECTION MOVIES */
+
 /* === SWIPER === */
-.swipers {
-  width: 100%;
+/* .swipers {
+  width: 100vh;
+  padding-bottom: 30px;
+  height: 200px;
+} */
+
+
+
+.swiper {
+  width:90%;
   padding-bottom: 30px;
 }
 
+.swiper-slide {
+  width: auto !important; /* biar bisa menyesuaikan ukuran konten */
+}
+
 .movie-card {
-  position: relative;
-  z-index: 10 !important;
-  overflow: visible;
+  height: 250px;
+  aspect-ratio: 9 / 16;
   border-radius: 10px;
-  transition: transform 0.3s ease;
+  /* overflow: hidden; */
+  transition: transform 0.3s ease;  
+  z-index: 99;
 }
 
-.movie-card:hover {
-  z-index: 9999 !important; /* pastikan card aktif muncul paling depan */
-}
 
-.mv-card-h {
-  height: 200px !important;
-}
 
 .movie-card img {
   width: 100%;
   height: 100%;
   border-radius: 10px;
-  object-fit: cover;
+  /* object-fit: cover; */
   transition: transform 0.3s ease;
 }
 
+/* Efek hover kecil */
+
 .movie-card:hover img {
   transform: scale(1.05);
+  border-radius: 10px;
 }
 
-/* === SMALL TITLE === */
-.movie-info {
-  position: absolute;
-  bottom: 10px;
-  left: 15px;
-  color: #fff;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
-  z-index: 2;
-  font-weight: 600;
-}
-
-/* === TOOLTIP CARD === */
 .movie-tooltip {
   position: absolute;
-  top: -40px;
-  left: 50%;
-  transform: translateX(-50%) scale(0.9);
-  width: 200px;
-  background-color: var(--primary-color);
-  border-radius: 10px;
-  overflow: hidden;
   opacity: 0;
-  pointer-events: none;
-  transition: all 0.25s ease;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.6);
-  z-index: 99999 !important; /* tooltip selalu di atas semua slide */
-  pointer-events: auto;
+  transform: scale(0.95);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  display: block; /* jangan gunakan display:none agar animasi bisa berjalan */
+  visibility: hidden;
+  width: 300px;
+  background: var(--primary-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  overflow: hidden;
+  z-index: 9999;
+  pointer-events: none; /* biar gak ganggu hover pas hilang */
 }
 
-.movie-tooltip img {
+.movie-tooltip.show {
+  opacity: 1;
+  transform: scale(1);
+  visibility: visible;
+  pointer-events: auto; /* aktif saat muncul */
+}
+
+.movie-tooltip.show {
+  display: block;
+  opacity: 1;
+}
+
+.movie-tooltip iframe {
   width: 100%;
   height: 180px;
   object-fit: cover;
@@ -325,10 +335,14 @@ section.movies .movie-category i {
   color: #aaa;
 }
 
-.movie-card:hover .movie-tooltip {
-  opacity: 1;
-  transform: translateX(-50%) scale(1);
-  pointer-events: auto;
+.swipper-button-costume {
+  position: relative;
+  top: -150px;
+  visibility: hidden;
+}
+
+.swipper-button-costume.show {
+  visibility: visible;
 }
 
 /* === SWIPER BUTTONS === */
@@ -338,21 +352,8 @@ section.movies .movie-category i {
   text-shadow: 0 2px 4px rgba(0,0,0,0.8);
 }
 
-/* === FIX TOOLTIP TERPOTONG === */
-.swiper,
-.swiper-wrapper,
-.swiper-slide {
-  overflow: visible !important;
-}
-
-/* Hilangkan scrollbar mengganggu */
-body::-webkit-scrollbar {
-  width: 0px;
-  background: transparent;
-}
-
 .more-movie-list {
-  background-color: #000000aa;
+  background-color: var(--fourth-color);
   display: flex !important;
   justify-content: center;
   align-items: center;
@@ -360,193 +361,287 @@ body::-webkit-scrollbar {
   color: var(--third-color);
   font-size: 20px;
   font-weight: bolder;
+  height: 250px !important;
+  aspect-ratio: 9 / 16;
+  border-radius: 10px;
+
 }
 
-.play {
-  width: 100%;
-  height: 60vh; /* setengah layar */
-  position: relative;
-  overflow: hidden;
-  background: #000;
+#load-more {
+  color: var(--white-color);
+  background-color: var(--fourth-color);
+  padding: 10px;
+  width: 200px;
+  border: 0;
+  border-radius: 10px;
+  font-weight: bolder;
+  transition: all 0.3s ease;
+  font-size: 12px;
 }
 
-.play .video-container {
-  width: 100%;
-  height: 100%;
-  position: relative;
+#load-more:hover {
+  background-color: var(--third-color);
+  color: var(--fourth-color);
+  transition: all 0.3s ease;
 }
 
-.play iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
-  object-fit: cover; /* isi penuh area 50vh */
+.load-movie-btn {
+  visibility: hidden;
 }
 
-.movie-detail {
-  padding: 20px 50px;
+.load-movie-btn.show {
+  visibility: visible;
+}
+
+
+.movie-about {
+  /* padding: 0 50px; */
   margin-bottom: 50px;
 }
 
-.movie-detail h2 {
+.movie-about .thumbnail {
+  position: relative;
+  width: 100%;
+  left: 0;
+  z-index: 1;
+  height: 70vh;
+  overflow: hidden;
+}
+
+.movie-about .thumbnail img {
+  width: 100%;
+  object-fit: cover;
+  position: absolute;
+  z-index: 10;
+  height: 100%;
+}
+
+.movie-about .thumbnail .thumbnail-gradiend {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 10;
+  background: linear-gradient(to top, var(--primary-color) 20%, transparent );
+}
+
+.movie-about .detail {
+  position: relative;
+  z-index: 2;
+  /* top: -30vh; */
+  margin-top: -30vh;
   color: var(--white-color);
-  font-weight: bolder;
+  padding: 0 50px;
 }
 
-.movie-detail p {
-  color: #eee;
+.detail .detail-start {
+  display: flex;
 }
 
-.movie-detail ul {
+.detail .poster {
+  height: 250px;
+  aspect-ratio: 9 / 16;
+  border-radius: 10px;
+  margin-right: 30px;
+}
+
+.detail .detail-info {
+  align-self: flex-end !important;
+}
+
+.detail .detail-info ul {
   display: flex;
   align-items: center;
   gap: 8px; /* jarak antar item */
   list-style: none;
   padding: 0;
   margin: 5px 0 15px 0;
-  color: #ccc; /* warna teks abu-abu muda */
+  /* color: #ccc; warna teks abu-abu muda */
   font-size: 14px;
 }
 
-.movie-detail ul li {
+.detail .detail-info ul li {
   position: relative;
 }
 
-.movie-detail ul li:not(:last-child)::after {
+.detail .detail-info ul li:not(:first-child)::before {
   content: "•";
-  color: #999; /* warna titik tengah */
+  /* color: #999; warna titik tengah */
   margin-left: 8px;
   margin-right: 8px;
 }
 
-.movie-detail ul li a {
+.detail .detail-info .btn-detail {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.detail .detail-info .btn-detail a {
+  padding: 7.5px 15px;
+  border: 1px solid var(--third-color);
+  border-radius: 10px;
   text-decoration: none;
-  color: #ccc;
-  transition: color 0.3s;
+  color: var(--white-color);
+  font-weight: bolder;
+  margin-right: 5px;
+  transition: all 0.3 ease;
 }
 
-.movie-detail ul li a:hover {
-  color: #fff;
+.detail .detail-info .btn-detail a.active {
+  background-color: var(--third-color);
 }
 
-.movie-detail hr {
-  border-top: .5px solid #eee;
+.detail .detail-info .btn-detail a:hover {
+  background-color: var(--third-color);
+  color: var(--white-color);
+  transition: all 0.3 ease;
+}
+
+.detail .detail-end {
+  margin-top: 20px;
+}
+.detail .detail-end .description {
+  font-weight: bolder;
+  margin-bottom: 30px;
+}
+
+.detail .detail-end p.desc-title {
+  color: #908f8f;
+  line-height: 0;
+}
+
+
+.movie-watch .play-movie{
+  height: 60vh;
+  margin-bottom: 20px;
+}
+
+.movie-watch .detail {
+  color: var(--white-color);
+}
+
+.movie-watch .more-watch {
+  padding: 0 50px;
+  width: 100%;
+}
+
+.movie-watch .play-movie iframe{
+  height: 60vh;
+}
+
+.movie-watch .detail .poster {
+  height: 150px;
+  aspect-ratio: 9 / 16;
+  border-radius: 10px;
+  margin-right: 30px;
+}
+
+.movie-watch .movie-card {
+  height: 200px !important;
+  aspect-ratio: 9 / 16;
+  border-radius: 10px;
+  /* overflow: hidden; */
+  transition: transform 0.3s ease;  
+  z-index: 99;
 }
 
 
 
 
 
-footer {
-    padding: 100px 0;
-    text-align: center;
-    background-color: #000;
-}
 
 
 
-/* Extra small devices (portrait phones, less than 576px) */
-@media (max-width: 575.98px) {
-  /* CSS khusus untuk layar < 576px */
-  #hero-section {
-    height: 40vh !important;
-    padding: 20px;
-  }
 
-  #hero-section p {
-      font-size: 16px !important;
-  }
 
-  #hero-section button.button-watch {
-      padding: 10px;
-      font-size: 16px;
-  }
-}
+@media (max-width: 576.98px) {
 
-/* Small devices (landscape phones, ≥576px) */
-/* @media (min-width: 576px) { */
-  /* CSS untuk layar antara 576px dan 767px */
-/* } */
-
-/* Medium devices (tablets, ≥768px) */
-@media (max-width: 768.98px) {
-  /* CSS untuk layar antara 768px dan 991px */
-
-  /* #hero-section {
-    height: 40vh !important;
+   /* #hero-section {
+    height: 40vh;
   } */
 
-  .mobile-logo {
-    display: contents;
-  }
-  .desktop-logo {
-    display: none;
-  }
-  .search-box {
-    width: auto;
-  }
-
-  #nav-left-menu {
-    display: none;
-  }
-
-  
-
-  
-
 }
 
-/* Large devices (desktops, ≥992px) */
-@media (min-width: 769px) {
-  /* CSS untuk layar antara 992px dan 1199px */
-    #hero-section {
-      height: auto;
-    }
+
+@media (max-width: 768.98px) {
+
+  /* #nav-left-menu {
+    display: flex !important;
+  } */
+
+  .video-background {
+    zoom: 150%;
+  }
 
   .navbar-bottom {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+  }
+
+  .navbar-nav {
+    flex-direction: row;
+  }
+
+  .nav-link-costume {
+    margin-left: 10px;
+  }
+
+  .nav-link-costume-menu {
     display: none;
   }
 
-  .movie-tooltip {
-    width: 320px;
-  }
-
-  /* section.movies {
-    padding: 0 10%;
+  /* #hero-section {
+    height: 50vh;
   } */
 
-}
-
-/* Large devices (desktops, ≥992px) */
-@media (min-width: 992px) {
-  /* CSS untuk layar antara 992px dan 1199px */
-  
   #hero-section p {
-      font-size: 40px;
+    font-size: 16px;
   }
 
   #hero-section button.button-watch {
-      padding: 10px 150px;
-      font-size: 16px;
+    width: auto;
+    font-size: 12px;
   }
 
-  .movie-tooltip {
-    width: 400px;
+  .movie-card {
+    height: 200px;
   }
+
+  .swipper-button-costume {
+    top: -120px;
+  }
+
+  .movie-about .detail .poster {
+    display: none;
+  }
+
+  .detail .detail-info .btn-detail a {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  .movie-watch .play-movie{
+    height: 40vh;
+    margin-bottom: 20px;
+  }
+
+  .movie-watch .play-movie iframe{
+  height: 40vh;
 }
 
-/* Extra large devices (large desktops, ≥1200px) */
-@media (min-width: 1200px) {
-  /* CSS untuk layar antara 1200px dan 1399px */
-  .movie-tooltip {
-    width: 350px;
+  .detail .detail-info ul {
+    font-size: 12px;
   }
-}
 
-/* Extra extra large devices (≥1400px) */
-@media (min-width: 1400px) {
-  /* CSS untuk layar 1400px ke atas */
+  .movie-watch .detail .poster {
+    height: 100px;
+    aspect-ratio: 9 / 16;
+    border-radius: 10px;
+    margin-right: 30px;
+  }
+
+
+
 }
